@@ -33,23 +33,24 @@ function Nav1() {
 
     
 
-      <Navbar expand="lg" variant="dar" className='p-0' style={{ backgroundColor: 'purple' }}>
+      <Navbar expand="lg" variant="dar" className='p-0 ' style={{ backgroundColor: 'purple' }}>
         <Navbar.Toggle aria-controls="navbar-nav" />
-        <Navbar.Brand className="pt-0 pb-0 ms-5 ps-5"  href="#home">
+        <Navbar.Brand className="pt-0 pb-0 ms-6 ps-5"  href="#home">
           <img height="50px" width="60px" src="https://media.licdn.com/dms/image/C5622AQEquEBZ_rHw2w/feedshare-shrink_2048_1536/0/1666334215565?e=2147483647&v=beta&t=qGrAyDMRVvzIpYolU0oLixCgrCVDATUV2JPJWurefgg" alt="" />
         </Navbar.Brand>
         <Navbar.Collapse className="text-light" id="responsive-navbar-nav"  style={{marginLeft: "470px"}}>
           <Nav className="me-auto  " >
-            <Nav.Link className="text-light"  href="/">Home</Nav.Link>
-            <Nav.Link className="text-light" href="">Women'sClub</Nav.Link>
-            <NavDropdown  title='Event' menuVariant="dark" >
+            <Nav.Link className="text-light"  href="/">HOME</Nav.Link>
+            <Nav.Link className="text-light" href="">WOMENS'sClub</Nav.Link>
+            <Nav.Link className="text-light" href="/allevents">EVENTS</Nav.Link>
+            {/* <NavDropdown  title='Event' menuVariant="dark" >
               <NavDropdown.Item  className="fs-xx-small" href="/gallary">GALLERY</NavDropdown.Item>
               <NavDropdown.Item className="fs-xx-small" href="/allevents">ALL EVENTS</NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Link className="text-light" variant="dark" href="">Members</Nav.Link>
-            <Nav.Link className="text-light" variant="dark" href="">About</Nav.Link>
-            <Nav.Link className="text-light" variant="dark" href="/signup">Register</Nav.Link>
-            <Nav.Link className="text-light" variant="dark" href="/login">Login</Nav.Link>
+            </NavDropdown> */}
+            <Nav.Link className="text-light" variant="dark" href="/members">MEMBERS</Nav.Link>
+            <Nav.Link className="text-light" variant="dark" href="/about">ABOUT</Nav.Link>
+            <Nav.Link className="text-light" variant="dark" href="/signup">REGISTER</Nav.Link>
+            <Nav.Link className="text-light" variant="dark" href="/login">LOGIN</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

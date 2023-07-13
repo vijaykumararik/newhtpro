@@ -1,12 +1,15 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import Card from 'react-bootstrap/Card';
-import { useCallback, useRef } from "react";
+import axios from 'axios';
+import { useCallback, useRef ,useEffect,useState} from "react";
 import { MDBContainer } from "mdb-react-ui-kit";
 import Sliders from './slider';
 
 const Home = () => {
   const videoRef = useRef(null);
+  const [images, setImages] = useState([]);
+  const [images1, setImages1] = useState([]);
 
   const handleMouseEnter = useCallback(() => {
     videoRef.current.play();
@@ -15,6 +18,33 @@ const Home = () => {
   const handleMouseLeave = useCallback(() => {
     videoRef.current.pause();
   }, []);
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res1 = await axios.get('http://localhost:4000/advertises');
+        console.log(res1.data.slice(0, 3));
+        // const res = await axios.get('http://localhost:4000/advertises');
+        setImages(res1.data.slice(0, 3)); // Limiting the images to three/
+        setImages1(res1.data.slice(3, 6)); // Limiting the images to three
+        // console.log(res1.data.slice(0, 3));
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    };
+
+    fetchImages();
+  }, []);
+
+  const convertToBase64 = (buffer) => {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  };
+
   return (
     <div className="w-100">
       <div className="row">
@@ -59,7 +89,7 @@ const Home = () => {
           </Carousel>
         </div>
         <div className="col-md-3  ps-0 mt-md-0 d-flex flex-wrap">
-           <Carousel   className='mt-1' style={{ width: '100%' }}>
+           {/* <Carousel   className='mt-1' style={{ width: '100%' }}>
       <Carousel.Item>
         <img
           className="d-block w-100"
@@ -144,6 +174,36 @@ const Home = () => {
           </p>
         </Carousel.Caption>
       </Carousel.Item>
+    </Carousel> */}
+
+<Carousel className='mt-0' style={{ width: '100%' }}>
+      {images.map((image, index) => (
+        <Carousel.Item key={index}>
+          <img
+            className="d-block w-100"
+            height='160px'
+            width='100%'
+            src={`data:image/jpeg;base64,${convertToBase64(image.advertise.data)}`}
+          />
+          <Carousel.Caption>
+          </Carousel.Caption>
+        </Carousel.Item>
+      ))}
+    </Carousel>
+
+    <Carousel className='mt-0' style={{ width: '100%' }}>
+      {images1.map((image, index) => (
+        <Carousel.Item key={index}>
+          <img
+            className="d-block w-100"
+            height='160px'
+            width='100%'
+            src={`data:image/jpeg;base64,${convertToBase64(image.advertise.data)}`}
+          />
+          <Carousel.Caption>
+          </Carousel.Caption>
+        </Carousel.Item>
+      ))}
     </Carousel>
         
           <Card className="" style={{ width: '100%' }}>
