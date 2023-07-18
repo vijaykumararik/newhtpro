@@ -1,21 +1,20 @@
-// import Allevents from "./Allevents";
+
 import { Container, Form, Button } from 'react-bootstrap';
 
 import Events from "./Events";
 import Gallary from "./Gallary";
 import Nav1 from "./Navbar";
-// import Register from "./Register";
-// import RegistrationForm from "./RegistrationForm";
 import Footer from "./footer";
 import Home from "./home";
 import Login from "./login";
 import Registration from "./Registration";
-// import SignUp from "./signUp";
-import {Route, Routes, useNavigate } from 'react-router-dom';
-import { useEffect,useState } from "react";
-import { Navigate } from "react-router-dom";
+import {Route, Routes,BrowserRouter, useNavigate } from 'react-router-dom';
+import { useEffect,useState } from "react"
 import  Modal from "react-modal";
 import Advertise1 from './Advertise1';
+import About from './about/About';
+import Members from './Members';
+import Membersdetails from './Membersdetails';
 const customStyles = {
   content: {
     top: '50%',
@@ -64,7 +63,9 @@ const Homeportal = () => {
         // You can access the form values using the state variables (fullName, email, phoneNumber)
       };
     return ( 
-        <div className="HomePortal">
+  
+
+<div className="HomePortal">
            <Modal
             isOpen={modalIsOpen}
             onAfterOpen={afterOpenModal}
@@ -124,13 +125,15 @@ const Homeportal = () => {
           {/* <Route path='/singup' element={<signUp/>} /> */}
           <Route path="/gallary" element={<Gallary/>} />
           <Route path="/allevents" element={<Events/>} />
+          <Route path="/about" element={<About/>} />
+          <Route path="/members" element={<Members/>} />
+          <Route path="/membersdetails/:id" element={<Membersdetails/>} />
           <Route path="/a" element={<Advertise1/>} />
-
-            
-        
           </Routes>
           <Footer/>
   </div>
+        
+  
       
      );
 }

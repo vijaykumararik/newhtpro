@@ -32,32 +32,32 @@ app.use(express.json());
 app.use(cors()); // Cross-origin resource sharing
 
 // Upload event endpoint
-app.post('/upload', upload.array('images', 15), async (req, res) => {
-  try {
-    const { eventId, title, description } = req.body;
-    const files = req.files;
+// app.post('/upload', upload.array('images', 15), async (req, res) => {
+//   try {
+//     const { eventId, title, description } = req.body;
+//     const files = req.files;
 
-    const images = files.map((file) => ({
-      image: file.buffer,
-    }));
+//     const images = files.map((file) => ({
+//       image: file.buffer,
+//     }));
 
-    // Create a new event document
-    const event = new Event({
-      eventId,
-      title,
-      description,
-      images,
-    });
+//     // Create a new event document
+//     const event = new Event({
+//       eventId,
+//       title,
+//       description,
+//       images,
+//     });
 
-    // Save the event to the database
-    await event.save();
+//     // Save the event to the database
+//     await event.save();
 
-    res.json({ message: 'Event uploaded successfully' });
-  } catch (error) {
-    console.error('Error during event upload:', error);
-    res.status(500).json({ error: 'An error occurred during event upload' });
-  }
-});
+//     res.json({ message: 'Event uploaded successfully' });
+//   } catch (error) {
+//     console.error('Error during event upload:', error);
+//     res.status(500).json({ error: 'An error occurred during event upload' });
+//   }
+// });
 
 app.post('/upload1', upload.array('image', 3), async (req, res) => {
   try {
@@ -89,7 +89,8 @@ app.post('/upload1', upload.array('image', 3), async (req, res) => {
 });
 
 // Registration endpoint
-app.post('/registration',upload1.array('images1', 5), async (req, res) => {
+
+app.post('/registration',upload.array('images', 15), async (req, res) => {
   try {
   
     const {
@@ -118,14 +119,15 @@ app.post('/registration',upload1.array('images1', 5), async (req, res) => {
       businessType,
       plan,
       businessDescription,
-      image,
       video,
     } = req.body;
-   
+    const files = req.files;
 
-    const images = image.map((file) => ({
+    const images = files.map((file) => ({
       image: file.buffer,
     }));
+   
+  
     // Create a new registration document
     const registration = new Registration({
       userName,
@@ -156,6 +158,14 @@ app.post('/registration',upload1.array('images1', 5), async (req, res) => {
       images,
       video,
     });
+    // if (req.files && req.files.length > 0) {
+    //   req.files.forEach((file) => {
+    //     registration.images.push({
+    //       name: file.originalname,
+    //       data: file.buffer.toString('base64'),
+    //     });
+    //   });
+    // }
 
     // Save the registration to the database
     let registrations=await registration.save();
@@ -164,6 +174,52 @@ app.post('/registration',upload1.array('images1', 5), async (req, res) => {
   } catch (error) {
     console.error('Error during registration:', error);
     res.status(500).json({ error: 'An error occurred during registration' });
+  }
+});
+
+app.get('/members', async (req,res)=>{
+  try {
+    const members = await Registration.find();
+    res.json(members);
+
+  } catch (error) {
+    console.error('Error fetching members:', error);
+    res.status(500).json({ error: 'An error occurred during event retrieval' });
+  }
+});
+
+
+// app.get('/members/:id', async (req, res) => {
+//   const { id } = req.params;
+
+//   try {
+//     // Replace this URL with your actual data source endpoint
+//     const response = await Registration.findById(id)
+//     // axios.get(`http://localhost:4000/members/${id}`);
+//     const { data } = response;
+
+//     // Assuming the response is an object with member data
+//     res.json(data);
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+  
+app.get('/members/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const member = await Registration.findById(id);
+
+    if (!member) {
+      return res.status(404).json({ error: 'Member not found' });
+    }
+
+    res.json(member);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -187,6 +243,7 @@ app.get('/images', async (req, res) => {
     res.status(500).json({ error: 'An error occurred during image retrieval' });
   }
 });
+
   
 app.delete('/images/:id', async (req, res) => {
   try {

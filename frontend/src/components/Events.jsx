@@ -1,6 +1,6 @@
 
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Adva from './Adva';
 
@@ -9,8 +9,9 @@ function Events() {
   const [info, setInfo] = useState(null);
   const [addNewEvent, setAddNewEvent] = useState(false);
   const [alter,setAlter]=useState(1)
-
+  let eventName=useRef()
   useEffect(() => {
+   
     const fetchEvents = async () => {
       try {
         const res = await axios.get('http://localhost:4000/events');
@@ -34,8 +35,10 @@ function Events() {
     return window.btoa(binary);
   };
 
-  function handleInfo(title) {
-    const info = events.filter((event) => event.title === title);
+  function handleInfo(e) {
+    console.log(eventName.current.value);
+    console.log(e);
+    const info = events.filter((event) => event.title ===eventName.current.value );
     setInfo(info);
     console.log(info);
     setAddNewEvent(null);
@@ -43,65 +46,130 @@ function Events() {
   }
 
   return (
-    <div className="container py-4">
-      <div className="row">
-        <div className="col-md-6">
-          <div className="list-group">
-            <h4 className="list-group-item list-group-item-primary">Events List</h4>
-            {events.map((event) => (
-              <button
-                key={event.eventId}
-                className="list-group-item list-group-item-action"
-                onClick={() => handleInfo(event.title)}
-              >
-                {event.title}
-              </button>
-            ))}
+    <div className='Container'>
+      <div className='d-flex flex-row m-4' >
+      <div className=" ">
+      <select name="" id="" ref={eventName}  onChange={(e) => handleInfo(e)}>
+        <option value="Events">Events</option>
+        {
+          events.map((event)=>(
+            <option 
+            key={event.eventId}
+            value={event.title}
+            >{event.title}</option>
+          ))
+        }
+      </select>
+      <button
+      className="btn btn-primary ms-5"
+      onClick={() => {
+        setAddNewEvent(true);
+        setInfo(null);
+        setAlter(alter+1)
+      }}
+    >
+      Add New Event
+    </button>
+    </div>
+    
+      </div>
+      <div className=' w-100'>
+      <div className="">
+    {addNewEvent ? (
+      <div>
+        <h4 className="mb-4">Add New Event</h4>
+        <Adva />
+      </div>
+    ) : null}
+    {info &&
+      info.map((event) => (
+        <div key={event.eventId} className="card mb-4">
+          <div className="card-body">
+            <h5 className="card-title">{event.title}</h5>
+            <p className="card-text">{event.description}</p>
+            <div className="d-flex flex-wrap">
+              {event.images.map((image, i) => (
+                <img
+                  key={i}
+                  className="ms-3 mb-3 rounded"
+              
+                  height="200px"
+                  width="200px"
+                  src={`data:image/jpeg;base64,${convertToBase64(image.image.data)}`}
+                  alt=""
+                />
+              ))}
+               </div>
           </div>
-          <button
-            className="btn btn-primary mt-4"
-            onClick={() => {
-              setAddNewEvent(true);
-              setInfo(null);
-              setAlter(alter+1)
-            }}
-          >
-            Add New Event
-          </button>
         </div>
-        <div className="col-md-6">
-          {addNewEvent ? (
-            <div>
-              <h4 className="mb-4">Add New Event</h4>
-              <Adva />
-            </div>
-          ) : null}
-          {info &&
-            info.map((event) => (
-              <div key={event.eventId} className="card mb-4">
-                <div className="card-body">
-                  <h5 className="card-title">{event.title}</h5>
-                  <p className="card-text">{event.description}</p>
-                  <div className="d-flex flex-wrap">
-                    {event.images.map((image, i) => (
-                      <img
-                        key={i}
-                        className="ms-3 mb-3"
-                        height="100px"
-                        width="100px"
-                        src={`data:image/jpeg;base64,${convertToBase64(image.image.data)}`}
-                        alt=""
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
+      ))}
       </div>
     </div>
+    </div>
+   
   );
 }
 
 export default Events;
 
+
+
+
+{/* <div className="container py-4">
+<div className="row">
+  <div className="col-md-6">
+    <div className="">
+      <select name="" id="" ref={eventName}  onChange={(e) => handleInfo(e)}>
+        <option value="Events">Events</option>
+        {
+          events.map((event)=>(
+            <option 
+            key={event.eventId}
+            value={event.title}
+            >{event.title}</option>
+          ))
+        }
+      </select>
+    </div>
+    <button
+      className="btn btn-primary mt-4"
+      onClick={() => {
+        setAddNewEvent(true);
+        setInfo(null);
+        setAlter(alter+1)
+      }}
+    >
+      Add New Event
+    </button>
+  </div>
+  <div className="col-md-6">
+    {addNewEvent ? (
+      <div>
+        <h4 className="mb-4">Add New Event</h4>
+        <Adva />
+      </div>
+    ) : null}
+    {info &&
+      info.map((event) => (
+        <div key={event.eventId} className="card mb-4">
+          <div className="card-body">
+            <h5 className="card-title">{event.title}</h5>
+            <p className="card-text">{event.description}</p>
+            <div className="d-flex flex-wrap">
+              {event.images.map((image, i) => (
+                <img
+                  key={i}
+                  className="ms-3 mb-3"
+                  height="100px"
+                  width="100px"
+                  src={`data:image/jpeg;base64,${convertToBase64(image.image.data)}`}
+                  alt=""
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+  </div>
+</div>
+</div> */}

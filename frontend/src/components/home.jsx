@@ -228,6 +228,15 @@ const Home = () => {
           </Card>
         </div>
       </div>
+      <div className='Container'>
+          <h3 className='text-center mt-2'>ABOUT TEH</h3>
+          <div className="Container d-flex flex-row m-2 p-3">
+            <div className="mx-4 border p-3 bg-secondary text-white rounded">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Neque iste doloribus fuga consequatur aut alias necessitatibus, ipsa nostrum et totam pariatur dolores odio laudantium similique. Incidunt nemo perferendis suscipit sunt!</div>
+            <div className="mx-4 border p-3 bg-secondary text-white rounded">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor consequatur cupiditate rem facere aperiam voluptatum veritatis quod vitae sapiente atque tenetur ratione aspernatur nihil est, dolorem quibusdam sed debitis! Perspiciatis!</div>
+            <div className="mx-4 border p-3 bg-secondary text-white rounded">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat vitae, in culpa a dignissimos quos accusantium debitis dolores, dicta magni veniam tempora eaque, neque quam omnis hic eum. Delectus, tempora.</div>
+            {/* <div className="box">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia ea cupiditate beatae! Accusantium repudiandae, fuga, consequatur praesentium velit perferendis sed excepturi aut aliquam totam voluptates asperiores quod deserunt tempore iste.</div> */}
+          </div>
+        </div>
 
       <Sliders/>
     </div>
